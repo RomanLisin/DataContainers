@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ForwardList
 {
-	internal class Element
+	internal class Element<T>
 	{
-		public int Data { get; set; }       // значение элемента
-		public Element pNext { get; set; }  // следующий элемент
+		public T Data { get; set; }       // значение элемента
+		public Element<T> pNext { get; set; }  // следующий элемент
 		
-		public Element(int Data, Element pNext = null)
+		public Element(T Data, Element<T> pNext = null)
 		{
 			this.Data = Data;
 			this.pNext = pNext;

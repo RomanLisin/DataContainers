@@ -13,23 +13,29 @@ using System.Threading.Tasks;
 namespace ForwardList
 {
 
-	internal class ForwardList : IEnumerable
+	internal class ForwardList<T> : IEnumerable
 	{ 
-		Element Head;  // голова
+		Element<T> Head;  // голова
 		public uint Size { get; private set; }
-		public IEnumerator GetEnumerator()=> new Enumerator(Head);
-		public void Add(int Data) => push_back(Data);
+		public IEnumerator GetEnumerator()=> new Enumerator<T>(Head);
+		public void Add(T Data) => push_back(Data);
 		public ForwardList()
 		{
 			Head = null;
 			Size = 0;
 			Console.WriteLine($"LConstructor:\t{GetHashCode()}");
 		}
-		public ForwardList(int number)
+		//public ForwardList(int number)
+		//{
+		//	Head = null;
+		//	Size = 0;
+		//	this.push_back(number);
+			
+		//}
+		
+		public ForwardList(T[] array)
 		{
-			Head = null;
-			Size = 0;
-			this.push_back(number);
+			for (int i = 0; i < array.Length; i++) push_back(array[i]);
 		}
 		//public IEnumerator GetEnumerator() => new Enumerator(Head);
 		// цикл foreach ожидает метод GetEnumerator() и поддержку методов MoveNext() и Current
@@ -62,7 +68,7 @@ namespace ForwardList
 		//{
 		//	push_back(Data);
 		//}
-		public void push_front(int Data)
+		public void push_front(T Data)
 		{
 			//1) создаём новый элемент
 			//Element New = new Element(Data);
@@ -70,36 +76,36 @@ namespace ForwardList
 			//New.pNext = Head;
 			//3) смещаем голову на новый элемент
 			//Head = New;
-			Head = new Element(Data,Head);
+			Head = new Element<T>(Data,Head);
 			Size++;
 		}
-		public void push_back(int Data)
+		public void push_back(T Data)
 		{
 			if (Head == null) push_front(Data);
 			else
 			{
-				Element Temp = Head;
+				Element<T> Temp = Head;
 				while (Temp.pNext != null)
 					Temp = Temp.pNext;
-				Element New = new Element(Data);
+				Element<T> New = new Element<T>(Data);
 				Temp.pNext = New;
 				Size++;
 			}
 
 		}
-		public void insert(int Data, int Index)
+		public void insert(T Data, int Index)
 		{
 			if (Index > Size) return;
 			if (Index == 0) push_front(Data);
 			else
 			{
 				//1)доходим до нужного элеамента
-				Element Temp = Head;
+				Element<T> Temp = Head;
 				for (int i = 0; i < Index - 1; i++) Temp = Temp.pNext;
 				//if (Temp.pNext != null) break;
 				//	Temp = Temp.pNext;
 				// 2) создаём новый элемнт
-				Element New = new Element(Data);
+				Element<T> New = new Element<T>(Data);
 				//3) Включаем элемент в список
 				New.pNext = Temp.pNext;
 				Temp.pNext = New;
@@ -120,7 +126,7 @@ namespace ForwardList
 			else if (Head.pNext == null) pop_front();
 			else
 			{
-				Element Temp = Head;
+				Element<T> Temp = Head;
 				while (Temp.pNext.pNext != null)
 				{
 					Temp = Temp.pNext;
@@ -136,7 +142,7 @@ namespace ForwardList
 			else if (index == 0) pop_front();
 			else if (index < Size)
 			{
-				Element Temp = Head;
+				Element<T> Temp = Head;
 				for (int i = 0; i < index - 1; i++) Temp = Temp.pNext;
 				Temp.pNext = Temp.pNext.pNext;
 			}
@@ -148,7 +154,7 @@ namespace ForwardList
 		//           Methods:
 		public void Print()
 		{
-			Element Temp = Head; // Temp - это итератор. Это указатель при помощи которого можно получить доступ к элементам к структуре данных
+			Element<T> Temp = Head; // Temp - это итератор. Это указатель при помощи которого можно получить доступ к элементам к структуре данных
 			while (Temp != null)
 			{
                 Console.Write($"{Temp.Data}\t");

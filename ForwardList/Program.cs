@@ -12,7 +12,7 @@ namespace ForwardList
 		static void Main(string[] args)
 		{
 			//Random rand = new Random(0);
-   //         Console.Write("Введите размер списка: ");
+			//         Console.Write("Введите размер списка: ");
 			//int n = Convert.ToInt32(Console.ReadLine());
 			//ForwardList lists = new ForwardList();
 			//for (int i = 0; i < n; i++)
@@ -35,13 +35,19 @@ namespace ForwardList
 			//int index = Convert.ToInt32(Console.ReadLine());
 			//list.erase(index);
 			//lists.Print();
-			ForwardList list = new ForwardList(){ 3, 5, 8, 13, 21 };
+			ForwardList<int> list = new ForwardList<int>() { 3, 5, 8, 13, 21 };
 			list.Print();
 			foreach (int i in list)
 			{
 				Console.Write(i + "\t");
 			}
 			Console.WriteLine();
+
+			ForwardList<double> d_list = new ForwardList<double>() { 2.36, 3.262, 42.252, 234.23, 235, 23.3 };
+			foreach (double i in d_list) Console.Write($"{i}\t"); Console.WriteLine();
+			
+            ForwardList<string> s_list = new ForwardList<string>() { "Ax", "ты", "ж", "Ёжтыкин", "Ты", "Двадцать" };
+			foreach (string i in s_list) Console.Write($"{i}\t"); Console.WriteLine();
 		}
 	}
 }
