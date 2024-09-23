@@ -8,11 +8,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
+// Generics
 namespace ForwardList
 {
 
-	internal class ForwardList : IEnumerable
-	{
+	internal class ForwardList // : IEnumerable
+	{ 
 		Element Head;  // голова
 		public uint Size { get; private set; }
 		public ForwardList()
@@ -27,21 +29,22 @@ namespace ForwardList
 			Size = 0;
 			this.push_back(number);
 		}
-
+		//public IEnumerator GetEnumerator() => new Enumerator(Head);
 		// цикл foreach ожидает метод GetEnumerator() и поддержку методов MoveNext() и Current
-		public IEnumerator GetEnumerator()
-		{
-			Element Temp = Head;
-			while (Temp != null)
-			{
-				yield return Temp.Data;  // yield return приостанавливает, но не завершает метод
-				Temp = Temp.pNext; // цикл возобновляется, выполнение продолжается с того места, где оно было приостановлено, а не завершено
-			}
-		}
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+		//public IEnumerator<T> GetEnumerator()
+		//{
+		//	Element<T> Temp = Head;
+		//	while (Temp != null)
+		//	{
+		//		yield return Temp.Data;  // yield return приостанавливает, но не завершает метод
+		//		Temp = Temp.pNext; // цикл возобновляется, выполнение продолжается с того места, где оно было приостановлено, а не завершено
+		//	}
+		//}
+		//IEnumerator<T> IEnumerable.GetEnumerator()
+		//{
+		//	return GetEnumerator();
+		//}
+
 		~ForwardList()
 		{
 			Console.WriteLine($"Destructor:\t{GetHashCode()}");
@@ -53,10 +56,10 @@ namespace ForwardList
 		}
 
 		////          Adding elements:
-		public void Add(int Data)   // переопределяем метод Add
-		{
-			push_back(Data);
-		}
+		//public void Add(T Data)   // переопределяем метод Add
+		//{
+		//	push_back(Data);
+		//}
 		public void push_front(int Data)
 		{
 			//1) создаём новый элемент
