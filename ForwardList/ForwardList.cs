@@ -13,10 +13,12 @@ using System.Threading.Tasks;
 namespace ForwardList
 {
 
-	internal class ForwardList // : IEnumerable
+	internal class ForwardList : IEnumerable
 	{ 
 		Element Head;  // голова
 		public uint Size { get; private set; }
+		public IEnumerator GetEnumerator()=> new Enumerator(Head);
+		public void Add(int Data) => push_back(Data);
 		public ForwardList()
 		{
 			Head = null;

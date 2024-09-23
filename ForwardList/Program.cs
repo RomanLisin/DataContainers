@@ -36,11 +36,12 @@ namespace ForwardList
 			//list.erase(index);
 			//lists.Print();
 			ForwardList list = new ForwardList(){ 3, 5, 8, 13, 21 };
+			list.Print();
 			foreach (int i in list)
 			{
 				Console.Write(i + "\t");
 			}
 			Console.WriteLine();
-        }
+		}
 	}
 }
