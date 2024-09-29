@@ -7,75 +7,76 @@ using std::endl;
 #define delimetr "\n--------------------------------------------\n"   
 
 
-
+template <typename T>
 class List
 {
-
+    template<typename T>
     class Element
     {
-        int Data;
-        Element* pNext;
-        Element* pPrev;
+        T Data;
+        Element<T>* pNext;
+        Element<T>* pPrev;
 
     public:
 
-        Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr)
+        Element<T>(T Data, Element* pNext = nullptr, Element* pPrev = nullptr)
             :Data(Data), pNext(pNext), pPrev(pPrev)
         {
             cout << "EConstructor:\t" << this << endl;
         }
 
-        ~Element()
+        ~Element<T>()
         {
             cout << "EDestructor:\t" << this << endl;
         }
-        friend class List;
-    }*Head, * Tail;  // Объявляем два указателя на объекты класса 'Element' непостредственно после описания класса
+        friend class List<T>;
+    };// *Head, * Tail;  // Объявляем два указателя на объекты класса 'Element' непостредственно после описания класса
     size_t size; // количество элементов списка
-    /*Element* Head;
-    Element* Tail;*/
+    Element<T>* Head;
+    Element<T>* Tail;
 
+    template<typename T>
     class Iterator
     {
-        Element* Temp;
+        Element<T>* Temp;
     public:
-        Iterator(Element* elem) : Temp(elem) {}
+        Iterator<T>(Element<T>* elem) : Temp(elem) {}
 
-        Iterator& operator++() { // переход к следующему элементу
+        Iterator<T>& operator++() { // переход к следующему элементу
             if (Temp) Temp = Temp->pNext;
             return *this;
         }
 
-        bool operator!=(const Iterator& other) const {
+        bool operator!=(const Iterator<T>& other) const {
             return Temp != other.Temp;
         }
 
-        int operator*() const { // разыменование итератора
+        T operator*() const { // разыменование итератора
             return Temp->Data;
         }
     };
 public:
 
     // конструктор по умолчанию
-    List();
+    List<T>();
 
-    List(std::initializer_list<int>); // конструктор для считывания массива List list = {  3, 5, 8, 13, 21 };
+    List<T>(std::initializer_list<T>); // конструктор для считывания массива List list = {  3, 5, 8, 13, 21 };
 
-    List& operator = (const List&);
+    List<T>& operator = (const List<T>&);
 
-    List& operator + (const List&);
+    List<T>& operator + (const List<T>&);
 
-    ~List();
+    ~List<T>();
     //            Adding elements:
-    void push_front(int);
+    void push_front(T);
 
-    void push_back(int);
+    void push_back(T);
 
     void pop_front();
 
     void pop_back();
 
-    void insert(int, int);
+    void insert(T, int);
 
     void erase(int);
 
@@ -86,33 +87,36 @@ public:
 
     void revers_print()const;
 
-    Iterator begin() const { return Iterator(Head); }
-    Iterator end() const { return Iterator(nullptr); }
+    Iterator<T> begin() const { return Iterator<T>(Head); }
+    Iterator<T> end() const { return Iterator<T>(nullptr); }
 };
 
-List::List() :Head(nullptr), Tail(nullptr), size(0)
+template<typename T>
+List<T>::List<T>() :Head(nullptr), Tail(nullptr), size(0)
 {
     cout << "LConstructor:\t" << this << endl;
 }
-
-List::List( std::initializer_list<int> values)
+template<typename T>
+List<T>::List<T>( std::initializer_list<T> values)
 {
-    for (int value : values)
+    for (T value : values)
         push_back(value);
     cout << "initializer_list_Constructor:\t" << this << endl;
 }
 
-List::~List()
+template<typename T>
+List<T>::~List<T>()
 {
     cout << "LDestructor:\t" << this << endl;
     Clear();
 }
 
-List& List::operator = (const List& list)
+template<typename T>
+List<T>& List<T>::operator = (const List<T>& list)
 {
     if (this == &list)return *this;
     this->~List();
-    Element* Temp = list.Head;
+    Element<T>* Temp = list.Head;
     while (Temp)
     {
         push_back(Temp->Data);
@@ -120,21 +124,23 @@ List& List::operator = (const List& list)
     }
 }
 
-List& List::operator + (const List& list)
+template<typename T>
+List<T>& List<T>::operator + (const List<T>& list)
 {
-    List* Lst = new List(*this);
-    for (int i : list) { Lst->push_back(i); }
+    List<T>* Lst = new List<T>(*this);
+    for (T i : list) { Lst->push_back(i); }
     return *Lst;
 }
 
-void List::push_front(int Data)
+template<typename T>
+void List<T>::push_front(T Data)
 {
     if (Head == nullptr && Tail == nullptr)
-        Head = Tail = new Element(Data);
+        Head = Tail = new Element<T>(Data);
     else
     {
         //1) Создаем элемент новый элемент
-        Element* New = new Element(Data);
+        Element<T>* New = new Element<T>(Data);
         //2) Присоединяем элемент к списку
         New->pNext = Head;
 
@@ -146,14 +152,15 @@ void List::push_front(int Data)
     size++;
 }
 
-void List::push_back(int Data)
+template<typename T>
+void List<T>::push_back(T Data)
 {
     if (Head == nullptr && Tail == nullptr)
-        Head = Tail = new Element(Data);
+        Head = Tail = new Element<T>(Data);
     else
     {
         //1) создаем новый элемент
-        Element* New = new Element(Data);
+        Element<T>* New = new Element<T>(Data);
         //2) присоединяем элемент к хвосту
         New->pPrev = Tail;
         //3) присоединяем список к элементу
@@ -163,12 +170,14 @@ void List::push_back(int Data)
     }
     size++;
 }
-void List::pop_front()
+
+template<typename T>
+void List<T>::pop_front()
 {
     if (Head == nullptr)return;
     if (Head->pNext != nullptr)
     {
-        Element* New = Head->pNext;
+        Element<T>* New = Head->pNext;
         New->pPrev = nullptr;
         delete Head;
         Head = New;
@@ -177,12 +186,13 @@ void List::pop_front()
     size--;
 }
 
-void List::pop_back()
+template<typename T>
+void List<T>::pop_back()
 {
     if (Tail == nullptr)return;
     if (Head->pNext != nullptr)
     {
-        Element* New = Tail->pPrev;
+        Element<T>* New = Tail->pPrev;
         New->pNext = nullptr;
         delete Tail;
         Tail = New;
@@ -191,22 +201,23 @@ void List::pop_back()
     else pop_front();
 }
 
-void List::insert(int Data, int index)
+template<typename T>
+void List<T>::insert(T Data, int index)
 {
     if (index > size) {
         cout << "Index > size" << endl; return;
     }
     if (Head == nullptr && Tail == nullptr)
-        Head = Tail = new Element(Data);
+        Head = Tail = new Element<T>(Data);
     if (index == 0)
     {
         push_front(Data); return;
     }
     else
     {
-        Element* Temp = Head;
+        Element<T>* Temp = Head;
         for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
-        Element* New = new Element(Data);
+        Element<T>* New = new Element<T>(Data);
         // включаем элемент в список
         if (Temp->pNext != nullptr) New->pNext = Temp->pNext; else { push_back(Data); return; }
         Temp->pNext = New;
@@ -216,7 +227,8 @@ void List::insert(int Data, int index)
     size++;
 }
 
-void List::erase(int index)
+template<typename T>
+void List<T>::erase(int index)
 {
     if (index > size || Head == nullptr && Tail == nullptr)return;
     if (index == size) {
@@ -228,7 +240,7 @@ void List::erase(int index)
         return;
     }
 
-    Element* Temp = Head;
+    Element<T>* Temp = Head;
     for (int i = 0; i < index; i++)
     {
         Temp = Temp->pNext;
@@ -241,26 +253,29 @@ void List::erase(int index)
     size--;
 }
 
-void List::Clear()
+template<typename T>
+void List<T>::Clear()
 {
     while (Head)pop_back();
     Head = nullptr;
     size = 0;
 }
 
-void List::print()const
+template<typename T>
+void List<T>::print()const
 {
     cout << "Head:\t" << Head << endl;
-    for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+    for (Element<T>* Temp = Head; Temp; Temp = Temp->pNext)
         cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
     cout << "Tail:\t" << Tail << endl;
     cout << "Количество элементов списка: " << size << endl;
 }
 
-void List::revers_print()const
+template<typename T>
+void List<T>::revers_print()const
 {
     cout << "Tail:\t" << Tail << endl;
-    for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
+    for (Element<T>* Temp = Tail; Temp; Temp = Temp->pPrev)
         cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
     cout << "Head:\t" << Head << endl;
     cout << "Количество элементов списка: " << size << endl;
@@ -290,10 +305,10 @@ void main()
     }
     cout << endl;*/
 
-    List list1 = { 3, 5, 8, 13, 21 };
-    List list2 = { 34, 55, 89 };
-    List list3 = list1 + list2;
-    for (int i : list3)
+    List<std::string> list1 = { "3.523", "5.23", "82.323", "13.03", "21" };
+    List<std::string> list2 = { "34", "55.3234", "89" };
+    List<std::string> list3 = list1 + list2;
+    for (std::string i : list3)
     {
         cout << i << tab;
     }
