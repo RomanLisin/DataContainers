@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include<iostream>
 using std::cin;
 using std::cout;
@@ -27,8 +27,8 @@ class List
             cout << "EDestructor:\t" << this << endl;
         }
         friend class List<T>;
-    };// *Head, * Tail;  // Объявляем два указателя на объекты класса 'Element' непостредственно после описания класса
-    size_t size; // количество элементов списка
+    };// *Head, * Tail;  // РћР±СЉСЏРІР»СЏРµРј РґРІР° СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РѕР±СЉРµРєС‚С‹ РєР»Р°СЃСЃР° 'Element' РЅРµРїРѕСЃС‚СЂРµРґСЃС‚РІРµРЅРЅРѕ РїРѕСЃР»Рµ РѕРїРёСЃР°РЅРёСЏ РєР»Р°СЃСЃР°
+    size_t size; // РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°
     Element<T>* Head;
     Element<T>* Tail;
 
@@ -39,7 +39,7 @@ class List
     public:
         Iterator<T>(Element<T>* elem) : Temp(elem) {}
 
-        Iterator<T>& operator++() { // переход к следующему элементу
+        Iterator<T>& operator++() { // РїРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ СЌР»РµРјРµРЅС‚Сѓ
             if (Temp) Temp = Temp->pNext;
             return *this;
         }
@@ -48,16 +48,16 @@ class List
             return Temp != other.Temp;
         }
 
-        T operator*() const { // разыменование итератора
+        T operator*() const { // СЂР°Р·С‹РјРµРЅРѕРІР°РЅРёРµ РёС‚РµСЂР°С‚РѕСЂР°
             return Temp->Data;
         }
     };
 public:
 
-    // конструктор по умолчанию
+    // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     List<T>();
     List(const List<T>& list);
-    List<T>(std::initializer_list<T>); // конструктор для считывания массива List list = {  3, 5, 8, 13, 21 };
+    List<T>(std::initializer_list<T>); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ РјР°СЃСЃРёРІР° List list = {  3, 5, 8, 13, 21 };
 
     List<T>& operator = (const List<T>&);
 
