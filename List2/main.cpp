@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -30,8 +30,8 @@ class List
             cout << "EDestructor:\t" << this << endl;
         }
         friend class List;
-    }*Head, * Tail;  // Объявляем два указателя на объекты класса 'Element' непостредственно после описания класса
-    size_t size; // количество элементов списка
+    }*Head, * Tail;  // РћР±СЉСЏРІР»СЏРµРј РґРІР° СѓРєР°Р·Р°С‚РµР»СЏ РЅР° РѕР±СЉРµРєС‚С‹ РєР»Р°СЃСЃР° 'Element' РЅРµРїРѕСЃС‚СЂРµРґСЃС‚РІРµРЅРЅРѕ РїРѕСЃР»Рµ РѕРїРёСЃР°РЅРёСЏ РєР»Р°СЃСЃР°
+    size_t size; // РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°
     /*Element* Head;
     Element* Tail;*/
 
@@ -41,7 +41,7 @@ class List
     public:
         Iterator(Element* elem) : Temp(elem) {}
 
-        Iterator& operator++() { // переход к следующему элементу
+        Iterator& operator++() { // РїРµСЂРµС…РѕРґ Рє СЃР»РµРґСѓСЋС‰РµРјСѓ СЌР»РµРјРµРЅС‚Сѓ
             if (Temp) Temp = Temp->pNext;
             return *this;
         }
@@ -50,16 +50,16 @@ class List
             return Temp != other.Temp;
         }
 
-        int operator*() const { // разыменование итератора
+        int operator*() const { // СЂР°Р·С‹РјРµРЅРѕРІР°РЅРёРµ РёС‚РµСЂР°С‚РѕСЂР°
             return Temp->Data;
         }
     };
 public:
 
-    // конструктор по умолчанию
+    // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     List();
 
-    List(std::initializer_list<int> values); // конструктор для считывания массива List list = {  3, 5, 8, 13, 21 };
+    List(std::initializer_list<int>); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ СЃС‡РёС‚С‹РІР°РЅРёСЏ РјР°СЃСЃРёРІР° List list = {  3, 5, 8, 13, 21 };
 
     List& operator = (const List&);
 
@@ -67,17 +67,17 @@ public:
 
     ~List();
     //            Adding elements:
-    void push_front(int Data);
+    void push_front(int);
 
-    void push_back(int Data);
+    void push_back(int);
 
     void pop_front();
 
     void pop_back();
 
-    void insert(int Data, int index);
+    void insert(int, int);
 
-    void erase(int index = 0);
+    void erase(int);
 
     void Clear();
 
@@ -133,14 +133,14 @@ void List::push_front(int Data)
         Head = Tail = new Element(Data);
     else
     {
-        //1) Создаем элемент новый элемент
+        //1) РЎРѕР·РґР°РµРј СЌР»РµРјРµРЅС‚ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
         Element* New = new Element(Data);
-        //2) Присоединяем элемент к списку
+        //2) РџСЂРёСЃРѕРµРґРёРЅСЏРµРј СЌР»РµРјРµРЅС‚ Рє СЃРїРёСЃРєСѓ
         New->pNext = Head;
 
-        //3) Присоединяет список к элементу
+        //3) РџСЂРёСЃРѕРµРґРёРЅСЏРµС‚ СЃРїРёСЃРѕРє Рє СЌР»РµРјРµРЅС‚Сѓ
         Head->pPrev = New;
-        //4) Смещаем голову на новый элемент:
+        //4) РЎРјРµС‰Р°РµРј РіРѕР»РѕРІСѓ РЅР° РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚:
         Head = New;
     }
     size++;
@@ -152,13 +152,13 @@ void List::push_back(int Data)
         Head = Tail = new Element(Data);
     else
     {
-        //1) создаем новый элемент
+        //1) СЃРѕР·РґР°РµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
         Element* New = new Element(Data);
-        //2) присоединяем элемент к хвосту
+        //2) РїСЂРёСЃРѕРµРґРёРЅСЏРµРј СЌР»РµРјРµРЅС‚ Рє С…РІРѕСЃС‚Сѓ
         New->pPrev = Tail;
-        //3) присоединяем список к элементу
+        //3) РїСЂРёСЃРѕРµРґРёРЅСЏРµРј СЃРїРёСЃРѕРє Рє СЌР»РµРјРµРЅС‚Сѓ
         Tail->pNext = New;
-        //4) Смещаем хвост на новый элемент
+        //4) РЎРјРµС‰Р°РµРј С…РІРѕСЃС‚ РЅР° РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
         Tail = New;
     }
     size++;
@@ -207,7 +207,7 @@ void List::insert(int Data, int index)
         Element* Temp = Head;
         for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
         Element* New = new Element(Data);
-        // включаем элемент в список
+        // РІРєР»СЋС‡Р°РµРј СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРѕРє
         if (Temp->pNext != nullptr) New->pNext = Temp->pNext; else { push_back(Data); return; }
         Temp->pNext = New;
         Temp->pNext->pPrev = New;
@@ -254,7 +254,7 @@ void List::print()const
     for (Element* Temp = Head; Temp; Temp = Temp->pNext)
         cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
     cout << "Tail:\t" << Tail << endl;
-    cout << "Количество элементов списка: " << size << endl;
+    cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°: " << size << endl;
 }
 
 void List::revers_print()const
@@ -263,14 +263,14 @@ void List::revers_print()const
     for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
         cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
     cout << "Head:\t" << Head << endl;
-    cout << "Количество элементов списка: " << size << endl;
+    cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°: " << size << endl;
 }
 
 void main()
 {
     setlocale(LC_ALL, "");
     /*int n;
-    /*cout << "Введите размер списка: "; cin >> n;
+    /*cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРїРёСЃРєР°: "; cin >> n;
     List listOne;
     for (int i = 0; i < n; i++)
     {
